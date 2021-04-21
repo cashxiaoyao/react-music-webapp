@@ -4,13 +4,14 @@
  * @Author: Cash
  * @Date: 2021-04-12 18:05:47
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-13 14:34:04
+ * @LastEditTime: 2021-04-20 18:42:58
  */
 //src/appliction/Home/index.js
 import React from 'react';
 import { renderRoutes } from "react-router-config";
 import { Top, Tab, TabItem } from "./style";
 import { NavLink } from 'react-router-dom'
+import Player from '../Player';
 
 
 function Home(props) {
@@ -40,6 +41,7 @@ function Home(props) {
         </NavLink>
       </Tab>
       {renderRoutes(routes)}
+      <Player></Player>
     </div>
   )
 }

@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-14 14:59:26
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-19 14:03:29
+ * @LastEditTime: 2021-04-20 18:06:40
  */
 import axios from 'axios';
 
@@ -230,3 +230,11 @@ export const RankTypes = {
 
 //顶部的高度,header的高度
 export const HEADER_HEIGHT = 45;
+
+
+// 播放模式
+export const playMode = {
+  sequence: 0,
+  loop: 1,
+  random: 2
+};

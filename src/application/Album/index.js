@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-16 18:28:20
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-19 15:26:01
+ * @LastEditTime: 2021-04-21 12:44:52
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Container, TopDesc, Menu, SongList, SongItem } from "./style";
@@ -17,6 +17,7 @@ import { HEADER_HEIGHT } from './../../api/config';
 import { connect } from "react-redux";
 import { changeEnterLoading, getAblumList } from "./store/actionCreators";
 import Loading from '../../baseUI/loading/index';
+
 
 function Album(props) {
     console.log(props);
@@ -39,7 +40,7 @@ function Album(props) {
 
     const handleBack = useCallback(() => {
         setShowStatus(false)
-    },[])
+    }, [])
 
     // //mock 数据
     // const currentAlbum = {
@@ -227,7 +228,7 @@ function Album(props) {
             setTitle('歌单')
             setIsMarquee(false)
         }
-    },[currentAlbum])
+    }, [currentAlbum])
 
     return (
         <CSSTransition
@@ -240,7 +241,6 @@ function Album(props) {
         >
             <Container>
                 <Header title={title} handleClick={handleBack} ref={headerEle} isMarquee={isMarquee}></Header>
-
                 {
                     !isEmptyObject(currentAlbum) ?
                         (<Scroll bounceTop={false} onScroll={handleScroll}>

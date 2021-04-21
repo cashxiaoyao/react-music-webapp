@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-16 18:52:48
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-19 16:16:29
+ * @LastEditTime: 2021-04-21 12:45:31
  */
 import styled from 'styled-components';
 import style from '../../assets/global-style';
@@ -14,23 +14,23 @@ export const Container = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: ${props => props.play > 0?"60px": 0};
   z-index: 1000;
-  background: ${style["background-color"]};
+  background: #fff;
   transform-origin: right bottom;
-  &.fly-enter, &.fly-appear {
-    transform: rotateZ (30deg) translate3d (100%, 0, 0);
+  &.fly-enter, &.fly-appear{
+    transform: rotateZ(30deg) translate3d(100%, 0, 0);
   }
-  &.fly-enter-active, &.fly-appear-active {
+  &.fly-enter-active, &.fly-appear-active{
     transition: transform .3s;
-    transform: rotateZ (0deg) translate3d (0, 0, 0);
+    transform: rotateZ(0deg) translate3d(0, 0, 0);
   }
-  &.fly-exit {
-    transform: rotateZ (0deg) translate3d (0, 0, 0);
+  &.fly-exit{
+    transform: rotateZ(0deg) translate3d(0, 0, 0);
   }
-  &.fly-exit-active {
+  &.fly-exit-active{
     transition: transform .3s;
-    transform: rotateZ (30deg) translate3d (100%, 0, 0);
+    transform: rotateZ(30deg) translate3d(100%, 0, 0);
   }
 `;
 
