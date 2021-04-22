@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-13 17:36:16
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-19 15:59:44
+ * @LastEditTime: 2021-04-22 19:20:25
  */
 import React, { useState, useEffect } from 'react';
 import Horizen from '../../baseUI/horizen-item';
@@ -28,9 +28,11 @@ import { renderRoutes } from 'react-router-config';
 
 
 
+
 function Singers(props) {
     let [category, setCategory] = useState('')
     let [alpha, setAlpha] = useState('')
+    
 
     const { singerList, /* enterLoading */ pullUpLoading, pullDownLoading, pageCount } = props;
 

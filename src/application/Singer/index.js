@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-19 15:51:16
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-20 14:21:35
+ * @LastEditTime: 2021-04-22 19:32:01
  */
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { CSSTransition } from "react-transition-group";
@@ -16,9 +16,9 @@ import { HEADER_HEIGHT } from "../../api/config";
 import { connect } from "react-redux";
 import { getSingerInfo, changeEnterLoading } from "./store/actionCreater";
 import Loading from "../../baseUI/loading";
+import MusicNote from '../../baseUI/music-note/index';
 
 function Singer(props) {
-    console.log(props);
     const [showStatus, setShowStatus] = useState(true);
 
     const collectButton = useRef()
@@ -27,6 +27,7 @@ function Singer(props) {
     const songScroll = useRef()
     const header = useRef()
     const layer = useRef()
+    const musicNoteRef = useRef()
 
     // 图片初始高度
     const initialHeight = useRef(0)
@@ -109,6 +110,10 @@ function Singer(props) {
         [],
     )
 
+    const musicAnimation = (x, y) => {
+        musicNoteRef.current.startAnimation({x,y})
+    }
+
     // mock数据
     /*  const artist = {
          picUrl: "https://p2.music.126.net/W__FCWFiyq0JdPtuLJoZVQ==/109951163765026271.jpg",
@@ -154,11 +159,11 @@ function Singer(props) {
                 <BgLayer ref={layer}></BgLayer>
                 <SongListWrapper ref={songScrollWrapper}>
                     <Scroll ref={songScroll} onScroll={handleScroll}>
-                        <SongsList songs={songs} showCollect={false}>
-                        </SongsList>
+                        <SongsList songs={songs} showCollect={false} musicAnimation={musicAnimation}></SongsList>
                     </Scroll>
                 </SongListWrapper>
                 {loading ? (<Loading></Loading>) : null}
+                <MusicNote ref={musicNoteRef}></MusicNote>
             </Container>
         </CSSTransition>
     )

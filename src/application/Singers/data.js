@@ -4,14 +4,13 @@
  * @Author: Cash
  * @Date: 2021-04-16 10:25:44
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-16 11:27:33
+ * @LastEditTime: 2021-04-22 19:14:00
  */
 import React ,{ createContext,useReducer } from 'react';
 import { fromJS } from "immutable";
 
 // 创建context
 export const CategoryDataContext = createContext({});
-    console.log(CategoryDataContext);
 
 // 相当于之前的constants
 export const CHANGE_CATEGORY = 'singers/CHANGE_CATEGORY'

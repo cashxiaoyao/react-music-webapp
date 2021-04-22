@@ -4,23 +4,24 @@
  * @Author: Cash
  * @Date: 2021-04-16 18:28:20
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-21 12:44:52
+ * @LastEditTime: 2021-04-22 19:27:44
  */
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Container, TopDesc, Menu, SongList, SongItem } from "./style";
+import { Container, TopDesc, Menu, /* SongList, SongItem */ } from "./style";
 import { CSSTransition } from "react-transition-group";
 import Header from '../../baseUI/header';
 import Scroll from '../../baseUI/scroll';
-import { getName, getCount, isEmptyObject } from "../../api/utils";
+import { /* getName, getCount, */ isEmptyObject } from "../../api/utils";
 import style from '../../assets/global-style';
 import { HEADER_HEIGHT } from './../../api/config';
 import { connect } from "react-redux";
-import { changeEnterLoading, getAblumList } from "./store/actionCreators";
+import { changeEnterLoading, getAblumList,changeCurrentAlbum } from "./store/actionCreators";
 import Loading from '../../baseUI/loading/index';
-
+import SongsList from '../SongList';
+import MusicNote from "../../baseUI/music-note/index";
 
 function Album(props) {
-    console.log(props);
+    // console.log(props,'AlbumAlbumAlbum');
     // 从路由中拿到歌单的 id
     const id = props.match.params.id;
 
@@ -29,14 +30,20 @@ function Album(props) {
     const [isMarquee, setIsMarquee] = useState(false)
 
     const headerEle = useRef();
+    const musicNoteRef = useRef();
 
     const { currentAlbum: currentAlbumImmutable, enterLoading } = props
-    const { getAlbumDataDispatch } = props
+    const { getAlbumDataDispatch,changeCurrentAlbumlDataDispatch } = props
 
-
+    const musicAnimation = (x, y) => {
+        musicNoteRef.current.startAnimation({x,y})
+    }
     useEffect(() => {
         getAlbumDataDispatch(id)
-    }, [getAlbumDataDispatch, id])
+        return () => {
+            changeCurrentAlbumlDataDispatch({})
+        }
+    }, [getAlbumDataDispatch, id,changeCurrentAlbumlDataDispatch])
 
     const handleBack = useCallback(() => {
         setShowStatus(false)
@@ -177,39 +184,39 @@ function Album(props) {
         )
     }
 
-    const readerSongList = () => {
-        return (
-            <SongList>
-                <div className="first_line">
-                    <div className="play_all">
-                        <i className="iconfont">&#xe6e3;</i>
-                        <span > 播放全部 <span className="sum">(共 {currentAlbum.tracks.length} 首)</span></span>
-                    </div>
-                    <div className="add_list">
-                        <i className="iconfont">&#xe62d;</i>
-                        <span > 收藏 ({getCount(currentAlbum.subscribedCount)})</span>
-                    </div>
-                </div>
-                <SongItem>
-                    {
-                        currentAlbum.tracks.map((item, index) => {
-                            return (
-                                <li key={index}>
-                                    <span className="index">{index + 1}</span>
-                                    <div className="info">
-                                        <span>{item.name}</span>
-                                        <span>
-                                            {getName(item.ar)} - {item.al.name}
-                                        </span>
-                                    </div>
-                                </li>
-                            )
-                        })
-                    }
-                </SongItem>
-            </SongList>
-        )
-    }
+    // const readerSongList = () => {
+    //     return (
+    //         <SongList>
+    //             <div className="first_line">
+    //                 <div className="play_all">
+    //                     <i className="iconfont">&#xe6e3;</i>
+    //                     <span > 播放全部 <span className="sum">(共 {currentAlbum.tracks.length} 首)</span></span>
+    //                 </div>
+    //                 <div className="add_list">
+    //                     <i className="iconfont">&#xe62d;</i>
+    //                     <span > 收藏 ({getCount(currentAlbum.subscribedCount)})</span>
+    //                 </div>
+    //             </div>
+    //             <SongItem>
+    //                 {
+    //                     currentAlbum.tracks.map((item, index) => {
+    //                         return (
+    //                             <li key={index}>
+    //                                 <span className="index">{index + 1}</span>
+    //                                 <div className="info">
+    //                                     <span>{item.name}</span>
+    //                                     <span>
+    //                                         {getName(item.ar)} - {item.al.name}
+    //                                     </span>
+    //                                 </div>
+    //                             </li>
+    //                         )
+    //                     })
+    //                 }
+    //             </SongItem>
+    //         </SongList>
+    //     )
+    // }
 
     const handleScroll = useCallback((pos) => {
         // console.log(pos.y);
@@ -247,11 +254,19 @@ function Album(props) {
                             <div>
                                 {readerTopDesc()}
                                 {readerMenu()}
-                                {readerSongList()}
+                                {/* {readerSongList()} */}
+                                <SongsList
+                                    songs={currentAlbum.tracks}
+                                    collectCount={currentAlbum.subscribedCount}
+                                    showCollect={true}
+                                    showBackground={true}
+                                    musicAnimation={musicAnimation}
+                                ></SongsList>
                             </div>
                         </Scroll>) : null
                 }
                 {enterLoading ? <Loading></Loading> : null}
+                <MusicNote ref={musicNoteRef}></MusicNote>
             </Container>
         </CSSTransition>
     )
@@ -272,6 +287,9 @@ const mapDispatchToProps = (dispatch) => {
         getAlbumDataDispatch(id) {
             dispatch(changeEnterLoading(true))
             dispatch(getAblumList(id))
+        },
+        changeCurrentAlbumlDataDispatch(data) {
+            dispatch(changeCurrentAlbum(data))
         }
     }
 }

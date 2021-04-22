@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-13 18:47:37
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-19 15:12:11
+ * @LastEditTime: 2021-04-22 17:12:35
  */
 import { RankTypes } from "./config";
 /**
@@ -19,9 +19,9 @@ export const getCount = (count) => {
     if (count < 10000) {
         return count
     } else if (Math.floor(count / 10000) < 10000) {
-        return Math.floor(count/1000)/10 + '万'
+        return Math.floor(count / 1000) / 10 + '万'
     } else {
-        return Math.floor(count/10000000)/10 + '亿'
+        return Math.floor(count / 10000000) / 10 + '亿'
     }
 }
 
@@ -37,10 +37,10 @@ export const debounce = (func, delay) => {
     let timer;
     return function () {
         let args = [...arguments]
-        if(timer) clearTimeout(timer)
+        if (timer) clearTimeout(timer)
         timer = setTimeout(() => {
             func.apply(this, args)
-        },delay)
+        }, delay)
     }
 }
 
@@ -54,7 +54,7 @@ export const debounce = (func, delay) => {
 export const filterIndex = rankList => {
     for (let i = 0; i < rankList.length - 1; i++) {
         if (rankList[i].tracks.length && !rankList[i + 1].tracks.length) {
-            return i+1
+            return i + 1
         }
     }
 }
@@ -63,23 +63,89 @@ export const filterIndex = rankList => {
 //找出排行榜的编号
 export const filterIdx = name => {
     for (var key in RankTypes) {
-      if (RankTypes[key] === name) return key;
+        if (RankTypes[key] === name) return key;
     }
     return null;
-  };
-  
+};
+
 // 处理歌手列表拼接歌手名字
 export const getName = list => {
     let str = "";
-    list.map ((item, index) => {
-      str += index === 0 ? item.name : "/" + item.name;
-      return item;
+    list.map((item, index) => {
+        str += index === 0 ? item.name : "/" + item.name;
+        return item;
     });
     return str;
 };
-  
+
 // 判断一个对象是否为空
 export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0;
+
+// 给css3相关属性增加浏览器前缀，处理浏览器兼容性问题
+let elementStyle = document.createElement('div').style;
+
+let vendor = (() => {
+    // 首先通过transition属性判断是何种浏览器
+    let transformNames = {
+        webkit: 'webkitTransform',
+        Moz: "MozTransform",
+        O: "OTransform",
+        ms: 'msTransform',
+        standard: 'Transform'
+    }
+    for (const key in transformNames) {
+        if (elementStyle[transformNames[key]] !== undefined) {
+            return key
+        }
+    }
+    return false
+})()
+
+export const prefixStyle = (style) => {
+    if (!vendor) return false
+    if (vendor === 'standard') return style
+    return vendor + style.charAt(0).toUpperCase() + style.substr(1);
+}
+
+//拼接出歌曲的url链接
+export const getSongUrl = id => {
+    return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+};
+
+//转换歌曲播放时间
+export const formatPlayTime = interval => {
+    interval = interval | 0;// |0表示向下取整
+    const minute = (interval / 60) | 0;
+    const second = (interval % 60).toString().padStart(2, "0");
+    return `${minute}:${second}`;
+};
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+// 随机算法
+export function shuffle(arr) {
+    let new_arr = [];
+    arr.forEach(item => {
+      new_arr.push(item);
+    });
+    for (let i = 0; i < new_arr.length; i++) {
+      let j = getRandomInt(0, i);
+      let t = new_arr[i];
+      new_arr[i] = new_arr[j];
+      new_arr[j] = t;
+    }
+    return new_arr;
+  }
+  
+  // 找到当前的歌曲索引
+  export const findIndex = (song, list) => {
+    return list.findIndex(item => {
+      return song.id === item.id;
+    });
+  };
+
 
 
 

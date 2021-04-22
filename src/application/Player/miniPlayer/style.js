@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-20 18:52:09
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-21 13:14:04
+ * @LastEditTime: 2021-04-21 18:03:12
  */
 import styled, { keyframes } from 'styled-components';
 import style from '../../../assets/global-style';
@@ -83,14 +83,14 @@ export const MiniPlayerContainer = styled.div`
             font-size:30px;
             color:${style['theme-color']};
         }
-    }
-    .icon-mini {
-      font-size: 16px;
-      position: absolute;
-      left: 8px;
-      top: 8px;
-      &.icon-play {
-        left: 9px
-      }
+        .icon-mini {
+          font-size: 16px;
+          position: absolute;
+          left: 8px;
+          top: 8px;
+          &.icon-play {
+            left: 9px
+          }
+        }
     }
 `

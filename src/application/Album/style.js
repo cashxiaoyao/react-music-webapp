@@ -4,7 +4,7 @@
  * @Author: Cash
  * @Date: 2021-04-16 18:52:48
  * @LastEditors: Cash
- * @LastEditTime: 2021-04-21 12:45:31
+ * @LastEditTime: 2021-04-22 20:19:35
  */
 import styled from 'styled-components';
 import style from '../../assets/global-style';
@@ -14,7 +14,7 @@ export const Container = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  bottom: ${props => props.play > 0?"60px": 0};
+  bottom: ${props => props.play > 0 ? "60px" : 0};
   z-index: 1000;
   background: #fff;
   transform-origin: right bottom;
